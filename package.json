@@ -5,7 +5,8 @@
   "license": "MIT",
   "packageManager": "yarn@3.2.4",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "pdf": "nodemon example-pdf.js"
   },
   "dependencies": {
     "canvas": "^2.10.2",
