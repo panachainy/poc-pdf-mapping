@@ -6,7 +6,8 @@
   "packageManager": "yarn@3.2.4",
   "scripts": {
     "dev": "nodemon index.js",
-    "pdf": "nodemon example-pdf.js"
+    "pdf": "nodemon example-pdf.js",
+    "img": "nodemon example-image.js"
   },
   "dependencies": {
     "canvas": "^2.10.2",
