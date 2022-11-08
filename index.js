@@ -45,6 +45,7 @@ if (titleText[1]) context.fillText(titleText[1], 600, titleY + titleLineHeight);
 context.font = "40pt 'PT Sans'";
 context.fillText(`by ${post.author}`, 600, authorY);
 
+// NOTE: can use loadimage for write image like background.
 loadImage("./assets/logo.png").then((image) => {
   const { w, h, x, y } = imagePosition;
   context.drawImage(image, x, y, w, h);
