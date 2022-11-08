@@ -1,23 +1,37 @@
-const { createCanvas } = require("canvas");
+const { createCanvas, loadImage } = require("canvas");
 const fs = require("fs");
 
 const { formatTitle } = require("./utils/format-title");
 
 console.time("renderImage");
 
-// Dimensions for the image
-const width = 1765;
-const height = 1240;
+const post = {
+  title: "Draw and save images with Canvas and Node",
+  author: "Sean C Davis",
+};
+// Move the title formatter up farther because we're going to
+// use it to set our Y values.
+const titleText = formatTitle(post.title);
 
-const titleY = 170;
-const lineHeight = 100;
-const authorY = 500;
+const width = 1200;
+const height = 627;
+const imagePosition = {
+  w: 400,
+  h: 88,
+  x: 400,
+  // Calculate the Y of the image based on the number of
+  // lines in the title.
+  y: titleText.length === 2 ? 75 : 100,
+};
+// Do the same with the title's Y value.
+const titleY = titleText.length === 2 ? 300 : 350;
+const titleLineHeight = 100;
+// And the author's Y value.
+const authorY = titleText.length === 2 ? 525 : 500;
 
-// Instantiate the canvas object
 const canvas = createCanvas(width, height);
 const context = canvas.getContext("2d");
 
-// Fill the rectangle with purple
 context.fillStyle = "#764abc";
 context.fillRect(0, 0, width, height);
 
@@ -25,21 +39,18 @@ context.font = "bold 70pt 'PT Sans'";
 context.textAlign = "center";
 context.fillStyle = "#fff";
 
-const post = {
-  title: "Draw and save images with Canvas and Node",
-  author: "Sean C Davis",
-};
+context.fillText(titleText[0], 600, titleY);
+if (titleText[1]) context.fillText(titleText[1], 600, titleY + titleLineHeight);
 
-const text = formatTitle(post.title);
-context.fillText(text[0], 600, titleY);
-if (text[1]) context.fillText(text[1], 600, titleY + lineHeight);
-
-// Render the byline on the image, starting at 600px.
 context.font = "40pt 'PT Sans'";
 context.fillText(`by ${post.author}`, 600, authorY);
 
-// Write the image to file
-const buffer = canvas.toBuffer("image/png");
-fs.writeFileSync("./image.png", buffer);
+loadImage("./assets/logo.png").then((image) => {
+  const { w, h, x, y } = imagePosition;
+  context.drawImage(image, x, y, w, h);
+
+  const buffer = canvas.toBuffer("image/png");
+  fs.writeFileSync("./image.png", buffer);
+});
 
 console.timeEnd("renderImage");
